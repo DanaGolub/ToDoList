@@ -4,6 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
+//dotenv to access variables in .env
+require('dotenv').config();
 
 const app = express();
 
@@ -12,7 +14,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://admin-dana:Test123@cluster0.wepwk.mongodb.net/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGO_ACCESS, {useNewUrlParser: true, useUnifiedTopology: true})
 
 const itemsSchema = {
   name: String
@@ -32,15 +34,6 @@ const thingToDo3 = new Item ({
 
 const defaultItems = [thingToDo1, thingToDo2, thingToDo3];
 
-// TO ADD ITEMS TO DATAB:
-// Item.insertMany(defaultItems, function(err){
-//   if (err) {
-//     console.log("Error, oops..");
-// } else {
-//   console.log("Success");
-// }
-// });
-//
 const listSchema = {
   name: String,
   items: [itemsSchema]
